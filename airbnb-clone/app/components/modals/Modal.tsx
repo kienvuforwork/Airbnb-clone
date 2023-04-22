@@ -27,7 +27,7 @@ const Modal: React.FC<ModalProps> = ({
   secondaryActionLabel,
   disabled,
 }) => {
-  const [showModal, setShowModal] = useState<boolean | undefined>();
+  const [showModal, setShowModal] = useState(isOpen);
   useEffect(() => {
     setShowModal(isOpen);
   }, [isOpen]);
@@ -37,9 +37,10 @@ const Modal: React.FC<ModalProps> = ({
       return;
     }
     setShowModal(false);
+
     setTimeout(() => {
-      onClose;
-    }, 300);
+      onClose();
+    }, 400);
   }, [disabled, onClose]);
 
   const handleSubmit = useCallback(() => {
@@ -67,9 +68,9 @@ const Modal: React.FC<ModalProps> = ({
           {/* CONTENT */}
           <div
             className={`translate duration-300 h-full 
-          ${showModal ? "translate-y-0" : "translate-y-full"} 
-          ${showModal ? "opacity-100" : "opacity-0"}
-          `}
+      ${showModal ? "translate-y-0" : "translate-y-full"} 
+      ${showModal ? "opacity-100" : "opacity-0"}
+      `}
           >
             <div className="translate h-full lg:h-auto md:h-auto border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
               {/* HEADER */}
@@ -103,6 +104,7 @@ const Modal: React.FC<ModalProps> = ({
                     onClick={handleSubmit}
                   ></Button>
                 </div>
+                {footer}
               </div>
             </div>
           </div>

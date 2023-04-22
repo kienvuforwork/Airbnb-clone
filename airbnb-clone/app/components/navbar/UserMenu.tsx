@@ -3,11 +3,15 @@ import { AiOutlineMenu } from "react-icons/ai";
 import Avatar from "../Avatar";
 import { useCallback, useState } from "react";
 import MenuItem from "./MenuItem";
+import { AppDispatch } from "@/app/store";
+import { useDispatch } from "react-redux";
+import { onOpen } from "@/app/store/registerModalSlice";
 const UserMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
   }, []);
+  const dispatch: AppDispatch = useDispatch();
   return (
     <div className="relative">
       <div className="flex flex-row items-center gap-3">
@@ -28,10 +32,15 @@ const UserMenu = () => {
         </div>
       </div>
       {isOpen && (
-        <div className="absolute rounded-md shadow-xl w-[40vw] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm">
+        <div className="absolute rounded-md shadow-lg  w-[40vw] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm">
           <div className="flex flex-col cursor-pointer ">
             <>
-              <MenuItem label="Login" onClick={() => null}></MenuItem>
+              <MenuItem
+                label="Login"
+                onClick={() => {
+                  dispatch(onOpen());
+                }}
+              ></MenuItem>
               <MenuItem label="Logout" onClick={() => null}></MenuItem>
               <MenuItem label="INformation" onClick={() => null}></MenuItem>
             </>

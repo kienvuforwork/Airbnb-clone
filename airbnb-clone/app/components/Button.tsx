@@ -33,7 +33,9 @@ const Button: React.FC<ButtonProps> = ({
       ${small ? "border-[1px]" : "border-4"}
       `}
     >
-      {/* {Icon && <Icon size={24} className="absolute left-4 top-3"></Icon>} */}
+      {Icon && (
+        <Icon size={24} className="absolute left-4 top-3 hover:left-10"></Icon>
+      )}
       {label}
     </button>
   );
