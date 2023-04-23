@@ -1,8 +1,9 @@
 "use client";
 
 import axios from "axios";
-import { AiFillGithub } from "react-icons/ai";
+import { IoLogoFacebook } from "react-icons/io";
 import { FcGoogle } from "react-icons/fc";
+import { AiOutlineFacebook } from "react-icons/ai";
 import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { AppDispatch, RootState } from "@/app/store";
@@ -54,7 +55,7 @@ const RegisterModal = () => {
         title="Become a Airbnber"
         subtitle="Create Account"
       ></Heading>
-      <p>body</p>
+
       <Input
         id="email"
         label="Email"
@@ -91,6 +92,12 @@ const RegisterModal = () => {
         outline
         label="Continue with Google"
         icon={FcGoogle}
+      ></Button>
+      <Button
+        onClick={() => {}}
+        outline
+        label="Continue with Facebook"
+        icon={IoLogoFacebook}
       ></Button>
       <div className=" text-center mt-4 font-light flex justify-center">
         <div className="flex flex-row gap-4">

@@ -35,14 +35,14 @@ const UserMenu = () => {
         <div className="absolute rounded-md shadow-lg  w-[40vw] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm">
           <div className="flex flex-col cursor-pointer ">
             <>
+              <MenuItem label="Login" onClick={() => null}></MenuItem>
               <MenuItem
-                label="Login"
+                label="Sinup"
                 onClick={() => {
                   dispatch(onOpen());
                 }}
               ></MenuItem>
-              <MenuItem label="Logout" onClick={() => null}></MenuItem>
-              <MenuItem label="INformation" onClick={() => null}></MenuItem>
+              <MenuItem label="" onClick={() => null}></MenuItem>
             </>
           </div>
         </div>
