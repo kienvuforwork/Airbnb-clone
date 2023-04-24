@@ -5,8 +5,16 @@ import { useCallback, useState } from "react";
 import MenuItem from "./MenuItem";
 import { AppDispatch } from "@/app/store";
 import { useDispatch } from "react-redux";
-import { onOpen } from "@/app/store/registerModalSlice";
-const UserMenu = () => {
+import { onOpen as onOpenRegister } from "@/app/store/registerModalSlice";
+import { onOpen as onOpenLogin } from "@/app/store/loginModalSlice";
+import { User } from "@prisma/client";
+import { signOut } from "next-auth/react";
+interface UserMenuProps {
+  currentUser?: User | null;
+}
+
+const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
+  console.log(currentUser);
   const [isOpen, setIsOpen] = useState(false);
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
@@ -34,16 +42,33 @@ const UserMenu = () => {
       {isOpen && (
         <div className="absolute rounded-md shadow-lg  w-[40vw] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm">
           <div className="flex flex-col cursor-pointer ">
-            <>
-              <MenuItem label="Login" onClick={() => null}></MenuItem>
-              <MenuItem
-                label="Sinup"
-                onClick={() => {
-                  dispatch(onOpen());
-                }}
-              ></MenuItem>
-              <MenuItem label="" onClick={() => null}></MenuItem>
-            </>
+            {currentUser ? (
+              <>
+                <MenuItem label="My trips" onClick={() => {}}></MenuItem>
+                <MenuItem label="My favorites" onClick={() => {}}></MenuItem>
+                <MenuItem label="My properties" onClick={() => {}}></MenuItem>
+                <MenuItem label="Aribnb home" onClick={() => {}}></MenuItem>
+                <MenuItem
+                  label="Log out"
+                  onClick={() => {
+                    signOut();
+                  }}
+                ></MenuItem>
+              </>
+            ) : (
+              <>
+                <MenuItem
+                  label="Login"
+                  onClick={() => dispatch(onOpenLogin())}
+                ></MenuItem>
+                <MenuItem
+                  label="Singup"
+                  onClick={() => {
+                    dispatch(onOpenRegister());
+                  }}
+                ></MenuItem>
+              </>
+            )}
           </div>
         </div>
       )}
