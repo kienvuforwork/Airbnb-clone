@@ -9,16 +9,17 @@ import { onOpen as onOpenRegister } from "@/app/store/registerModalSlice";
 import { onOpen as onOpenLogin } from "@/app/store/loginModalSlice";
 import { User } from "@prisma/client";
 import { signOut } from "next-auth/react";
+import { SafeUser } from "@/app/types";
 interface UserMenuProps {
-  currentUser?: User | null;
+  currentUser?: SafeUser | null;
 }
 
 const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
-  console.log(currentUser);
   const [isOpen, setIsOpen] = useState(false);
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
   }, []);
+  console.log(currentUser?.image);
   const dispatch: AppDispatch = useDispatch();
   return (
     <div className="relative">
@@ -35,7 +36,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
         >
           <AiOutlineMenu> </AiOutlineMenu>
           <div className="hidden md:block">
-            <Avatar></Avatar>
+            <Avatar src={currentUser?.image}></Avatar>
           </div>
         </div>
       </div>

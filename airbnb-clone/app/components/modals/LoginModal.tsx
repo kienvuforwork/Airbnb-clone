@@ -17,6 +17,7 @@ import Input from "../inputs/Input";
 import Button from "../Button";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import getCurrentUser from "@/app/actions/getCurrentUser";
 // export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 const LoginModal = () => {
@@ -38,19 +39,20 @@ const LoginModal = () => {
   });
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
-    signIn("credentials", { ...data, redirect: false }).then((callback) => {
-      setIsLoading(false);
+    signIn("credentials", { ...data, redirect: false }).then(
+      async (callback) => {
+        setIsLoading(false);
 
-      if (callback?.ok) {
-        toast.success("Logged in!");
-        router.refresh();
-        disptach(onClose());
+        if (callback?.ok) {
+          toast.success("Logged in!");
+          router.refresh();
+          disptach(onClose());
+        }
+        if (callback?.error) {
+          toast.error("Error!");
+        }
       }
-      if (callback?.error) {
-        toast.error("Error!");
-      }
-      console.log(callback);
-    });
+    );
   };
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -81,13 +83,17 @@ const LoginModal = () => {
     <div className="flex flex-col gap-4 mt-3  ">
       <hr />
       <Button
-        onClick={() => {}}
+        onClick={() => {
+          signIn("google");
+        }}
         outline
         label="Continue with Google"
         icon={FcGoogle}
       ></Button>
       <Button
-        onClick={() => {}}
+        onClick={() => {
+          signIn("facebook");
+        }}
         outline
         label="Continue with Facebook"
         icon={IoLogoFacebook}
