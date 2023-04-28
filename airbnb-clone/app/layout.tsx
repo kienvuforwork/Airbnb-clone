@@ -9,6 +9,7 @@ import LoginModal from "./components/modals/LoginModal";
 import getCurrentUser from "./actions/getCurrentUser";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import RentModal from "./components/modals/RentModal";
 
 export const metadata = {
   title: "Airbnb",
@@ -35,6 +36,7 @@ export default async function RootLayout({
           <Navbar currentUser={currentUser}></Navbar>
           <LoginModal></LoginModal>
           <RegisterModal></RegisterModal>
+          <RentModal></RentModal>
           {children}
         </Providers>
       </body>

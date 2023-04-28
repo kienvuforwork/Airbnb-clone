@@ -1,23 +1,20 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import axios from "axios";
 import { IoLogoFacebook } from "react-icons/io";
 import { FcGoogle } from "react-icons/fc";
-import { AiOutlineFacebook } from "react-icons/ai";
 import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { AppDispatch, RootState } from "@/app/store";
 import { useSelector, useDispatch } from "react-redux";
 import Modal from "./Modal";
-import type { TypedUseSelectorHook } from "react-redux";
-import { onClose } from "@/app/store/loginModalSlice";
 import Heading from "../Heading";
+import { onClose as onCloseLoginModal } from "@/app/store/loginModalSlice";
+import { onOpen as onOpenRegisterModal } from "@/app/store/registerModalSlice";
 import Input from "../inputs/Input";
 import Button from "../Button";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import getCurrentUser from "@/app/actions/getCurrentUser";
 // export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 const LoginModal = () => {
@@ -25,7 +22,7 @@ const LoginModal = () => {
     (state: RootState) => state.loginModalSlice.isOpen
   );
   const router = useRouter();
-  const disptach: AppDispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const {
     register,
@@ -46,7 +43,7 @@ const LoginModal = () => {
         if (callback?.ok) {
           toast.success("Logged in!");
           router.refresh();
-          disptach(onClose());
+          dispatch(onCloseLoginModal());
         }
         if (callback?.error) {
           toast.error("Error!");
@@ -54,6 +51,12 @@ const LoginModal = () => {
       }
     );
   };
+
+  const toggle = useCallback(() => {
+    dispatch(onCloseLoginModal());
+    dispatch(onOpenRegisterModal());
+  }, [dispatch]);
+
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <Heading center title="Welcome Back!" subtitle="Login Now!"></Heading>
@@ -100,13 +103,13 @@ const LoginModal = () => {
       ></Button>
       <div className=" text-center mt-4 font-light flex justify-center">
         <div className="flex flex-row gap-4">
+          <div>First time using Airbnb?</div>
           <div
-            onClick={() => disptach(onClose())}
+            onClick={() => toggle()}
             className="text-neutral-800 cursor-pointer hover:underline"
           >
-            Log in
+            Create an account!
           </div>
-          <div>Already have an account?</div>
         </div>
       </div>
     </div>
@@ -118,7 +121,7 @@ const LoginModal = () => {
       title="Log in"
       actionLabel="Continue"
       onClose={() => {
-        disptach(onClose());
+        dispatch(onCloseLoginModal());
       }}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}

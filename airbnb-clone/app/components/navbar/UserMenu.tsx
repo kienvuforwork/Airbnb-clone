@@ -7,6 +7,7 @@ import { AppDispatch } from "@/app/store";
 import { useDispatch } from "react-redux";
 import { onOpen as onOpenRegister } from "@/app/store/registerModalSlice";
 import { onOpen as onOpenLogin } from "@/app/store/loginModalSlice";
+import { onOpen as onOpenRentModal } from "@/app/store/rentModalSlice";
 import { User } from "@prisma/client";
 import { signOut } from "next-auth/react";
 import { SafeUser } from "@/app/types";
@@ -19,13 +20,21 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
   }, []);
-  console.log(currentUser?.image);
+
   const dispatch: AppDispatch = useDispatch();
+  const onRent = useCallback(() => {
+    if (!currentUser) {
+      return dispatch(onOpenLogin());
+    }
+    dispatch(onOpenRentModal());
+  }, [dispatch, currentUser]);
   return (
     <div className="relative">
       <div className="flex flex-row items-center gap-3">
         <div
-          onClick={() => {}}
+          onClick={() => {
+            onRent();
+          }}
           className="hidden sm:block font-semibold px-4 py-3 rounded-full hover:bg-neutral-100 transition cursor-pointer"
         >
           Airbnb your home
@@ -48,7 +57,12 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                 <MenuItem label="My trips" onClick={() => {}}></MenuItem>
                 <MenuItem label="My favorites" onClick={() => {}}></MenuItem>
                 <MenuItem label="My properties" onClick={() => {}}></MenuItem>
-                <MenuItem label="Aribnb home" onClick={() => {}}></MenuItem>
+                <MenuItem
+                  label="Aribnb home"
+                  onClick={() => {
+                    dispatch(onOpenRentModal());
+                  }}
+                ></MenuItem>
                 <MenuItem
                   label="Log out"
                   onClick={() => {

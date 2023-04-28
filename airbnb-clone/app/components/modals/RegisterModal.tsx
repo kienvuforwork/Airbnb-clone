@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { onOpen as onOpenLoginModal } from "@/app/store/loginModalSlice";
 import Modal from "./Modal";
 import type { TypedUseSelectorHook } from "react-redux";
-import { onClose } from "@/app/store/registerModalSlice";
+import { onClose as onCloseRegisterModal } from "@/app/store/registerModalSlice";
 import Heading from "../Heading";
 import Input from "../inputs/Input";
 import Button from "../Button";
@@ -24,7 +24,7 @@ const RegisterModal = () => {
     (state: RootState) => state.registerModalReducer.isOpen
   );
   const router = useRouter();
-  const disptach: AppDispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const {
     register,
@@ -42,9 +42,14 @@ const RegisterModal = () => {
 
     axios.post("/api/register", data).then(() => {
       toast.success("Registered!");
-      disptach(onClose());
+      dispatch(onCloseRegisterModal());
     });
   };
+  const toggle = useCallback(() => {
+    dispatch(onCloseRegisterModal());
+    dispatch(onOpenLoginModal());
+  }, [dispatch]);
+
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <Heading
@@ -100,15 +105,15 @@ const RegisterModal = () => {
         label="Continue with Facebook"
         icon={IoLogoFacebook}
       ></Button>
-      <div className=" text-center mt-4 font-light flex justify-center">
+      <div className=" text-center mt-4 font-light flex justify-center gap-4">
+        <div>Already have an account?</div>
         <div className="flex flex-row gap-4">
           <div
-            onClick={() => disptach(onClose())}
+            onClick={() => toggle()}
             className="text-neutral-800 cursor-pointer hover:underline"
           >
             Log in
           </div>
-          <div>Already have an account?</div>
         </div>
       </div>
     </div>
@@ -120,7 +125,7 @@ const RegisterModal = () => {
       title="resgister"
       actionLabel="Continue"
       onClose={() => {
-        disptach(onClose());
+        dispatch(onCloseRegisterModal());
       }}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}
