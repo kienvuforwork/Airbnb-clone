@@ -24,6 +24,7 @@
     "leaflet": "^1.9.3",
     "next": "13.3.0",
     "next-auth": "^4.22.1",
+    "next-cloudinary": "^4.8.0",
     "npm": "^9.6.5",
     "nvm": "^0.0.4",
     "query-string": "^8.1.0",
